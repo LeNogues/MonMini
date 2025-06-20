@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 12:41:59 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:29:42 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	open_and_execute(t_info *info, t_pipe *pipe_fd)
 
 static int	execute_built_in_bis(int type, t_info *info,
 	t_env *env, t_pipe *pipe_fd)
-{
+{	
 	if (type == 1)
 		return (ft_cd(info->cmd->cmd, env));
 	else if (type == 2)
@@ -136,7 +136,11 @@ int	execute_parent_builtin(int type, t_info *info, t_env *env)
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdin);
 	if (type == 7)
-		ft_exit(info, env, info->pipe);
+		result = ft_exit(info, env, info->pipe);
+	if (type >= 1 && type <= 7)
+		id = fork();
+	if (id == 0)
+		exit_clean(result, info, env, info->pipe);
 	return (result);
 }
 

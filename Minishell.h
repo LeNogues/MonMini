@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 16:20:04 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:24:10 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_info
 	t_cmd	*cmd;
 	t_cmd	*cmd_origin;
 	int		return_value;
+	int		return_built;
 	int		last_pid;
 }					t_info;
 

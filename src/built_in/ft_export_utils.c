@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/18 15:02:06 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:11:32 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_valid(char *str)
 	if (!str)
 		return (error_message(str));
 	if (!strchr(str, '='))
-		return (error_message(str));
+		return (0);
 	if (ft_isdigit(str[0]))
 		return (error_message(str));
 	while (str[i])
