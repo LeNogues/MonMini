@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 22:53:07 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:51:07 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	info = calloc(1, sizeof(t_info));
+	info = ft_calloc(1, sizeof(t_info));
 	if (!info)
 		return (0);
 	info->env = malloc(sizeof(t_env));

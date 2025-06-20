@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 15:29:42 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:38:36 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	prepare_redirections(t_info *info)
 	while (info->cmd->name[i])
 	{
 		result = open_all(info, i);
-		if (result <= 0)
+		if (result > 0)
 		{
 			if (info->cmd->fd_in > STDIN_FILENO)
 				close(info->cmd->fd_in);

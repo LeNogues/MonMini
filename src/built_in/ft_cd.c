@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 15:08:44 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:06:54 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	change_old_pwd(t_env *env)
 	if (!env->envp[i])
 		if (!create_env_cd("export OLDPWD=", env))
 			return ;
-	cwd = getcwd(NULL, 0);
+	cwd = ft_getenv("PWD=", env);
 	if (!cwd)
 		return ;
 	old_pwd = ft_strjoin("OLDPWD=", cwd);

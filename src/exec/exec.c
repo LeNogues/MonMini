@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 15:28:08 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:39:41 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void	exec(t_info *info)
 	if (!do_cmd(info, info->pipe))
 		return (close_pipe_fd(info->pipe->old), free(info->pipe));
 	waitpid(info->last_pid, &status_fils, 0);
-	info->return_value = WEXITSTATUS(status_fils);
+	if (info->last_pid != 0)
+		info->return_value = WEXITSTATUS(status_fils);
+	info->last_pid = 0;
 	if (g_state_signal == 130 || g_state_signal == 131)
 		info->return_value = g_state_signal;
 	while (waitpid(0, NULL, 0) != -1)

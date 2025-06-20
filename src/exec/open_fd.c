@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:27:23 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 15:19:51 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:15:41 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	open_out(t_cmd *cmd, const char *filename, int type)
 	{
 		perror(filename);
 		cmd->fd_out = -1;
-		return (0);
+		return (1);
 	}
 	cmd->fd_out = fd;
-	return (1);
+	return (0);
 }
 
 int	open_in(t_cmd *cmd, const char *filename)
@@ -45,8 +45,8 @@ int	open_in(t_cmd *cmd, const char *filename)
 	{
 		perror(filename);
 		cmd->fd_in = -1;
-		return (0);
+		return (1);
 	}
 	cmd->fd_in = fd;
-	return (1);
+	return (0);
 }

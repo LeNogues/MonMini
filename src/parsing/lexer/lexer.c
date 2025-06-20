@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:33:01 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/06/19 14:20:42 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:45:40 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ t_cmd	*merge(t_info *info, char *source)
 	create_list_of_token(&head);
 	expand_token(&head, info);
 	fusion(&head);
-	parser(&head, &final);
+	if(parser(&head, &final))
+		info->return_value = 2;
 	ft_list_len(final);
 	free_token_list(&head);
 	return (final);

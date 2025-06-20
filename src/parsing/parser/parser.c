@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:27:06 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/20 13:25:39 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:44:02 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ void	init_indices(int indices[2])
 	indices[1] = 0;
 }
 
-void	parser(t_token **head, t_cmd **final)
+int	parser(t_token **head, t_cmd **final)
 {
 	t_token	*current_start;
 	t_token	*current;
 	t_cmd	*node;
 
 	if (syntax_verif(head) == 1)
-		return ;
+		return (2);
 	current_start = *head;
 	current = current_start;
 	while (current)
@@ -93,4 +93,5 @@ void	parser(t_token **head, t_cmd **final)
 		if (node)
 			insert_last_tcmd(final, node);
 	}
+	return (0);
 }
