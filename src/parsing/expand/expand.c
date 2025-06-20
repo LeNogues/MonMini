@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 18:43:22 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/17 18:24:50 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/20 13:17:22 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void	expand_one_token_return_value(t_token *token_node, t_info *info)
 
 	value = ft_itoa(info->return_value);
 	free(token_node->start);
-	token_node->start = ft_strdup(value);
 	token_node->length = ft_strlen(value);
+	token_node->start = ft_strdup(value);
+
 	free(value);
 }
 
