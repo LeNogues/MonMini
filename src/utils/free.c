@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:45:04 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 21:33:12 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:40:52 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,22 @@ void	free_all_cmd(t_cmd *cmd)
 	{
 		tmp = cmd->next;
 		if (cmd->cmd)
+		{
 			free_tab(cmd->cmd);
+			cmd->cmd = NULL;
+		}
 		if (cmd->name)
 			free_tab(cmd->name);
+			
 		if (cmd->in_or_out)
 			free(cmd->in_or_out);
 		if (cmd->full_path)
 			free(cmd->full_path);
 		free(cmd);
+		cmd = NULL;
 		cmd = tmp;
 	}
+	cmd = NULL;
 }
 
 void	free_cmd(t_cmd *cmd)

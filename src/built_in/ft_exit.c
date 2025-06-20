@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:50:10 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/16 16:22:15 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/20 12:25:52 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	exit_clean(unsigned int return_value, t_info *info, t_env *env,
 		t_pipe *pipe_fd)
 {
+	close_pipe_fd(pipe_fd->old);
 	free_all_cmd(info->cmd);
 	free_tab(env->envp);
 	free(env);
-	close_pipe_fd(pipe_fd->old);
 	free(pipe_fd);
 	free(info);
 	exit(return_value);

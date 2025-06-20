@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_single_token.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:27:16 by seb               #+#    #+#             */
-/*   Updated: 2025/05/06 20:27:36 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/20 13:03:06 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ t_token	create_single_token(char c)
 		return (make_token(REDIR_IN));
 	else if (c == '>' && peek() != '>')
 		return (make_token(REDIR_OUT));
-	else if (c == '<' && peek() == '<' && peek_next() != '<')
+	else if (c == '<' && peek() == '<')
 	{
+		if (peek_next() == '<')
+			return (make_token(ERROR));
 		advance();
 		return (make_token(HEREDOC));
 	}
-	else if (c == '>' && peek() == '>' && peek_next() != '>')
+	else if (c == '>' && peek() == '>')
 	{
+		if (peek_next() == '>')
+			return (make_token(ERROR));
 		advance();
 		return (make_token(APPEND));
 	}

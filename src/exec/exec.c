@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 20:44:48 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:24:59 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,16 @@ int	get_nb_heredoc(t_cmd *cmd)
 
 void	exec(t_info *info)
 {
-	t_pipe	*pipe_fd;
 	int		status_fils;
 
 	g_state_signal = 1;
-	pipe_fd = malloc(sizeof(t_pipe) * 1);
-	if (!pipe_fd)
+	info->pipe = malloc(sizeof(t_pipe) * 1);
+	if (!info->pipe)
 		return ;
-	if (pipe(pipe_fd->old) == -1)
-		return (free(pipe_fd));
-	if (!do_cmd(info, pipe_fd))
-		return (close_pipe_fd(pipe_fd->old), free(pipe_fd));
+	if (pipe(info->pipe->old) == -1)
+		return (free(info->pipe));
+	if (!do_cmd(info, info->pipe))
+		return (close_pipe_fd(info->pipe->old), free(info->pipe));
 	waitpid(info->last_pid, &status_fils, 0);
 	info->return_value = WEXITSTATUS(status_fils);
 	if (g_state_signal == 130 || g_state_signal == 131)

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 16:31:37 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:41:59 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,17 +122,21 @@ int	execute_parent_builtin(int type, t_info *info, t_env *env)
 	int id;
 
 	id = 0;
+	result = 0;
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
 	if (info->cmd->fd_out != STDOUT_FILENO)
 		dup2(info->cmd->fd_out, STDOUT_FILENO);
 	if (info->cmd->fd_in != STDIN_FILENO)
 		dup2(info->cmd->fd_in, STDIN_FILENO);
-	result = execute_built_in_bis(type, info, env, NULL);
+	if (type >=1 && type <= 6)
+		result = execute_built_in_bis(type, info, env, NULL);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdout);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdin);
+	if (type == 7)
+		ft_exit(info, env, info->pipe);
 	return (result);
 }
 
@@ -148,23 +152,24 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 			info->return_value = 1;
 		return ;
 	}
-	type = get_type(info);
-	if (type != 0 && info->cmd->nb_cmd == 1 && is_parent_builtin(type))
+	if (info->cmd->cmd)
 	{
-		info->return_value = execute_parent_builtin(type, info, info->env);
+		type = get_type(info);
+		if (type != 0 && info->cmd->nb_cmd == 1 && is_parent_builtin(type))
+			info->return_value = execute_parent_builtin(type, info, info->env);
+		else
+		{
+			handle_signal_bis();
+			id = fork();
+			g_state_signal = 2;
+			if (id == 0)
+				open_and_execute(info, pipe_fd);
+			info->last_pid = id;
+		}
+		if (g_state_signal == 130 || g_state_signal == 131)
+			info->return_value = g_state_signal;
+		if (info->cmd->nb_cmd == 1)
+			close_pipe_fd(pipe_fd->old);
 	}
-	else
-	{
-		handle_signal_bis();
-		id = fork();
-		g_state_signal = 2;
-		if (id == 0)
-			open_and_execute(info, pipe_fd);
-		info->last_pid = id;
-	}
-	if (g_state_signal == 130 || g_state_signal == 131)
-		info->return_value = g_state_signal;
-	close_redirection_fds(info->cmd);
-	if (info->cmd->nb_cmd == 1)
-		close_pipe_fd(pipe_fd->old);
+		close_redirection_fds(info->cmd);
 }

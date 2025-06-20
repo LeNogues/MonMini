@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/19 16:24:40 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:10:51 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,16 @@ int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
 {
 	int	result;
 	int	type;
-	int	id;
 
 	result = -1;
 	type = 0;
-	id = -1;
 	info->cmd->fd_stdout = 0;
 	info->cmd->fd_stdin = 0;
 	if (!info->cmd->cmd)
 		return (-1);
 	type = get_type(info);
 	if (type != 0)
-	{
 		result = execute_built_in(type, info, env, pipe_fd);
-		id = fork();
-	}
-	if (id == 0)
-		exit_clean(result, info, env, pipe_fd);
 	return (result);
 }
 
