@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:50:10 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 12:25:52 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:25:56 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exit_clean(unsigned int return_value, t_info *info, t_env *env,
 		t_pipe *pipe_fd)
 {
 	close_pipe_fd(pipe_fd->old);
-	free_all_cmd(info->cmd);
+	free_all_cmd(info->cmd_origin);
 	free_tab(env->envp);
 	free(env);
 	free(pipe_fd);

@@ -1,13 +1,6 @@
 ligne pour valgrind :
 valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=ignore_leak_readline.supp ./minishell
 
-
-check :
-        ctrl + c return_value = 130                                     solution : normalement reparer mais faut tester une fois expand de $? fini
-        echo $? en profondeur
-
-
-
 ############################################################################
 #                                                                          #
 # ////////////////////////        /\             /////////             ||  #
@@ -22,13 +15,6 @@ check :
 #                                                                          #
 ############################################################################
 
-si que des white_space ---> segfault ||                         solution : renvoyer NULL plutot qu une liste chainer
-probleme parsing sur :  echo $"HOME"
-                        echo $adasdasdzd
-                        echo $"'$PWD'"
-                        echo $"''$PWD'"
-pas d export si : export A="yo toi"                             solution : ????
-echo $ ---> c est censer retourner $ mais l expand renvoie NULL
 
 
 
@@ -38,14 +24,10 @@ echo $ ---> c est censer retourner $ mais l expand renvoie NULL
 #          /                   /                    /                      #
 #          /                   /                    /                      # 
 #          /                   /                    /                      # 
-#          ////////////////    ////////////////     ////////////////       #
+#          ////////////////    ////////////////     ///////////////\       #
+#                         /    /                    /               \      #
+#                         /    /                    /                |     #
 #                         /    /                    /               /      #
-#                         /    /                    /               /      #
-#                         /    /                    /               /      #
-#          ////////////////    ////////////////     ////////////////       #
+#          ////////////////    ////////////////     ///////////////        #
 #                                                                          #
 ############################################################################
-
-ctrl + c dans heredoc casser
-unset test1 test2= ne unset rien mais devrait unset test1
-si exec ./folder pas le bon comportement

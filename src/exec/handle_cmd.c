@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 17:14:07 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:46:59 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	close_redirection_fds(t_cmd *cmd)
 
 void	open_and_execute(t_info *info, t_pipe *pipe_fd)
 {
-	int result;
+	int	result;
 
 	signal(SIGINT, ctrl_c);
 	dup_no_fd(info->cmd, pipe_fd);
@@ -122,7 +122,7 @@ int	execute_parent_builtin(int type, t_info *info, t_env *env)
 	int	saved_stdout;
 	int	saved_stdin;
 	int	result;
-	int id;
+	int	id;
 
 	id = 0;
 	result = 0;
@@ -132,7 +132,7 @@ int	execute_parent_builtin(int type, t_info *info, t_env *env)
 		dup2(info->cmd->fd_out, STDOUT_FILENO);
 	if (info->cmd->fd_in != STDIN_FILENO)
 		dup2(info->cmd->fd_in, STDIN_FILENO);
-	if (type >=1 && type <= 6)
+	if (type >= 1 && type <= 6)
 		result = execute_built_in_bis(type, info, env, NULL);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdout);
@@ -178,5 +178,5 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 		if (info->cmd->nb_cmd == 1)
 			close_pipe_fd(pipe_fd->old);
 	}
-		close_redirection_fds(info->cmd);
+	close_redirection_fds(info->cmd);
 }

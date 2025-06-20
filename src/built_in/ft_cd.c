@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 16:06:54 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:47:46 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,15 @@ static void	change_old_pwd(t_env *env)
 	env->envp[i] = old_pwd;
 }
 
-
-void add_pwd(t_env  *env)
+void	add_pwd(t_env *env)
 {
-	char **cmd;
+	char	**cmd;
 
 	cmd = ft_calloc(sizeof(char *), 2);
 	cmd[0] = "PWD=";
 	cmd[1] = getcwd(NULL, 0);
 	ft_export(cmd, env);
 }
-
 
 int	ft_cd(char **cmd, t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 16:44:09 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:48:37 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,7 +368,7 @@ void				print_one_token(t_token *node);
 int					create_list_of_token(t_token **head);
 
 // parser.c
-int				parser(t_token **head, t_cmd **final);
+int					parser(t_token **head, t_cmd **final);
 char				**create_command_line(t_token *start, t_token *pipe);
 int					size_cmd_line(t_token *start, t_token *pipe);
 void				initialise_node(t_cmd **node, int cmd_size, int redir_size);

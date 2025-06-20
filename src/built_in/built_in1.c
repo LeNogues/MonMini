@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/20 17:12:29 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:47:58 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	execute_built_in_bis(int type, t_info *info,
 int	execute_built_in(int type, t_info *info, t_env *env, t_pipe *pipe_fd)
 {
 	int	result;
-
 
 	if (info->cmd->nb_cmd == 1)
 	{
