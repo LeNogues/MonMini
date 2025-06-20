@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 16:39:41 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:14:28 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	exec(t_info *info)
 	int		status_fils;
 
 	g_state_signal = 1;
+	info->return_built = -1;
 	info->pipe = malloc(sizeof(t_pipe) * 1);
 	if (!info->pipe)
 		return ;
@@ -45,6 +46,8 @@ void	exec(t_info *info)
 	waitpid(info->last_pid, &status_fils, 0);
 	if (info->last_pid != 0)
 		info->return_value = WEXITSTATUS(status_fils);
+	if (info->return_built != -1)
+		info->return_value = info->return_built;
 	info->last_pid = 0;
 	if (g_state_signal == 130 || g_state_signal == 131)
 		info->return_value = g_state_signal;

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 16:38:36 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:14:07 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,16 @@ void	close_redirection_fds(t_cmd *cmd)
 
 void	open_and_execute(t_info *info, t_pipe *pipe_fd)
 {
+	int result;
+
 	signal(SIGINT, ctrl_c);
 	dup_no_fd(info->cmd, pipe_fd);
 	close_redirection_fds(info->cmd);
-	if (choice_of_builtin(info, info->env, pipe_fd) == -1)
+	result = choice_of_builtin(info, info->env, pipe_fd);
+	if (result == -1)
 		execute(info, info->env, pipe_fd);
 	else
-		free_cmd_env_pipe_bis(info, info->env, pipe_fd);
+		exit_clean(result, info, info->env, pipe_fd);
 }
 
 static int	execute_built_in_bis(int type, t_info *info,
