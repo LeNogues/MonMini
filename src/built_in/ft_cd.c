@@ -6,76 +6,50 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 19:47:46 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:41:37 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-static void	free_things(t_env *env, char *path, char *tmp_path, int i)
+int	find_pwd_line_index(char **envp)
 {
-	free(env->envp[i]);
-	free(path);
-	free(tmp_path);
+	int	i;
+
+	i = 0;
+	if (!envp)
+		return (-1);
+	while (envp[i])
+	{
+		if (ft_strncmp("PWD=", envp[i], 4) == 0)
+			break ;
+		i++;
+	}
+	return (i);
 }
 
-static void	change_pwd(t_env *env, char *path)
+void	set_new_pwd_value(t_env *env, int index)
 {
-	int		i;
 	char	*tmp_path;
 	char	*cwd;
 
-	i = 0;
-	tmp_path = ft_strdup(path);
-	if (!tmp_path)
-		return ;
-	if (!env || !env->envp)
-		return ;
-	while (env->envp[i])
-	{
-		if (ft_strncmp("PWD=", env->envp[i], 4) == 0)
-			break ;
-		i++;
-	}
-	free_things(env, path, tmp_path, i);
 	tmp_path = ft_strdup("PWD=");
 	cwd = getcwd(NULL, 0);
-	if (!tmp_path || ! cwd)
+	if (!tmp_path || !cwd)
+	{
+		free(tmp_path);
+		free(cwd);
 		return ;
-	env->envp[i] = ft_strjoin(tmp_path, cwd);
+	}
+	env->envp[index] = ft_strjoin(tmp_path, cwd);
 	if (!env->envp)
+	{
+		free(tmp_path);
+		free(cwd);
 		return ;
+	}
 	free(tmp_path);
 	free(cwd);
-}
-
-static void	change_old_pwd(t_env *env)
-{
-	char	*cwd;
-	char	*old_pwd;
-	int		i;
-
-	i = 0;
-	if (!env || !env->envp)
-		return ;
-	while (env->envp[i])
-	{
-		if (ft_strncmp("OLDPWD=", env->envp[i], 7) == 0)
-			break ;
-		i++;
-	}
-	if (!env->envp[i])
-		if (!create_env_cd("export OLDPWD=", env))
-			return ;
-	cwd = ft_getenv("PWD=", env);
-	if (!cwd)
-		return ;
-	old_pwd = ft_strjoin("OLDPWD=", cwd);
-	if (!old_pwd)
-		return (perror("ft_strjoin"));
-	free(env->envp[i]);
-	free(cwd);
-	env->envp[i] = old_pwd;
 }
 
 void	add_pwd(t_env *env)

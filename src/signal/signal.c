@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:58:40 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 12:20:23 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:47:36 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ void	ctrl_back(int sig)
 		rl_on_new_line();
 		g_state_signal = 131;
 	}
+}
+
+void	handle_signal_bis(void)
+{
+	signal(SIGQUIT, ctrl_back);
+	signal(SIGINT, ctrl_c_bis);
 }
 
 void	handle_signal(void)

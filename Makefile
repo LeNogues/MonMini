@@ -21,6 +21,7 @@ SRC=    src/main.c \
 		src/built_in/ft_unset.c \
 		src/signal/signal.c \
 		src/exec/exec.c \
+		src/exec/type_builtin.c \
 		src/exec/exec_loop.c \
 		src/exec/parsing.c \
 		src/exec/path.c \

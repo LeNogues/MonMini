@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:36:01 by seb               #+#    #+#             */
-/*   Updated: 2025/06/05 20:47:26 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/20 21:41:34 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+static void	free_things(t_env *env, char *path, char *tmp_path, int i)
+{
+	free(env->envp[i]);
+	free(path);
+	free(tmp_path);
+}
 
 int	create_env_cd(char *env_to_create, t_env *env)
 {
@@ -24,59 +31,49 @@ int	create_env_cd(char *env_to_create, t_env *env)
 	return (1);
 }
 
-void	get_rid_slash(char *cwd)
+void	change_pwd(t_env *env, char *path)
 {
-	int	i;
+	int		i;
+	char	*tmp_path;
 
-	i = 0;
-	while (cwd[i])
-		i++;
-	if (cwd[i - 1] == '/')
-		cwd[i - 1] = 0;
+	tmp_path = ft_strdup(path);
+	if (!tmp_path)
+		return ;
+	if (!env || !env->envp)
+	{
+		free(tmp_path);
+		return ;
+	}
+	i = find_pwd_line_index(env->envp);
+	free_things(env, path, tmp_path, i);
+	set_new_pwd_value(env, i);
 }
 
-char	*case_root(char *cwd, char **temp)
-{
-	if (ft_strncmp(cwd, "/", 2) != 0)
-	{
-		*temp = ft_strjoin(cwd, "/");
-		if (!temp)
-			return (free(cwd), NULL);
-	}
-	else
-	{
-		*temp = ft_strdup(cwd);
-		if (!*temp)
-			return (free(cwd), NULL);
-	}
-	return (*temp);
-}
-
-char	*create_new_path(t_env *env, char *path)
+void	change_old_pwd(t_env *env)
 {
 	char	*cwd;
-	char	*temp;
+	char	*old_pwd;
+	int		i;
 
-	temp = NULL;
+	i = 0;
+	if (!env || !env->envp)
+		return ;
+	while (env->envp[i])
+	{
+		if (ft_strncmp("OLDPWD=", env->envp[i], 7) == 0)
+			break ;
+		i++;
+	}
+	if (!env->envp[i])
+		if (!create_env_cd("export OLDPWD=", env))
+			return ;
 	cwd = ft_getenv("PWD=", env);
 	if (!cwd)
-		return (perror("ft_getenv"), NULL);
-	if (ft_strncmp(cwd, "/", 2) != 0 || path)
-		temp = case_root(cwd, &temp);
-	if (temp)
-	{
-		free(cwd);
-		cwd = ft_strjoin(temp, path);
-	}
-	else
-		return (NULL);
-	if (!cwd)
-		return (free(temp), free(path), perror("ft_strjoin"), NULL);
-	free(path);
-	free(temp);
-	path = ft_strdup(cwd);
-	if (!path)
-		return (free(cwd), perror("ft_strdup"), NULL);
+		return ;
+	old_pwd = ft_strjoin("OLDPWD=", cwd);
+	if (!old_pwd)
+		return (perror("ft_strjoin"));
+	free(env->envp[i]);
 	free(cwd);
-	return (path);
+	env->envp[i] = old_pwd;
 }

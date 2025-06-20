@@ -6,11 +6,34 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:55:46 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 21:55:06 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:32:03 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
+
+int	fork_and_execute_cmd(t_info *info, t_pipe *pipe_fd)
+{
+	int	id;
+
+	handle_signal_bis();
+	id = fork();
+	g_state_signal = 2;
+	if (id == 0)
+		open_and_execute(info, pipe_fd);
+	return (id);
+}
+
+void	execute_or_fork(t_info *info, t_pipe *pipe_fd)
+{
+	int	type;
+
+	type = get_type(info);
+	if (type != 0 && info->cmd->nb_cmd == 1 && is_parent_builtin(type))
+		info->return_value = execute_parent_builtin(type, info, info->env);
+	else
+		info->last_pid = fork_and_execute_cmd(info, pipe_fd);
+}
 
 void	execute(t_info *info, t_env *env, t_pipe *pipe_fd)
 {

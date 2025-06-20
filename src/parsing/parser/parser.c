@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:27:06 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/20 16:44:02 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:51:35 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,30 +66,38 @@ void	init_indices(int indices[2])
 	indices[1] = 0;
 }
 
+static t_token	*process_pipe_segments(t_cmd **cmd_list, t_token *token)
+{
+	t_token	*segment_start;
+	t_token	*current_token;
+	t_cmd	*node;
+
+	segment_start = token;
+	current_token = token;
+	while (current_token)
+	{
+		if (current_token->type == PIPE)
+		{
+			node = create_one_node(segment_start, current_token);
+			insert_last_tcmd(cmd_list, node);
+			segment_start = current_token->next;
+		}
+		current_token = current_token->next;
+	}
+	return (segment_start);
+}
+
 int	parser(t_token **head, t_cmd **final)
 {
-	t_token	*current_start;
-	t_token	*current;
+	t_token	*last_segment_start;
 	t_cmd	*node;
 
 	if (syntax_verif(head) == 1)
 		return (2);
-	current_start = *head;
-	current = current_start;
-	while (current)
+	last_segment_start = process_pipe_segments(final, *head);
+	if (last_segment_start)
 	{
-		if (current->type == PIPE)
-		{
-			node = create_one_node(current_start, current);
-			insert_last_tcmd(final, node);
-			current_start = current->next;
-			current = current_start;
-		}
-		current = current->next;
-	}
-	if (current_start)
-	{
-		node = create_one_node(current_start, NULL);
+		node = create_one_node(last_segment_start, NULL);
 		if (node)
 			insert_last_tcmd(final, node);
 	}

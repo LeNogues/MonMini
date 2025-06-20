@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 19:48:37 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:42:01 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,15 @@ void				close_redirection_fds(t_cmd *cmd);
 int					prepare_redirections(t_info *info);
 int					open_all(t_info *info, int i);
 void				dup_no_fd(t_cmd *cmd, t_pipe *pipe_fd);
+int					execute_built_in_bis(int type, t_info *info,
+						t_env *env, t_pipe *pipe_fd);
+int					get_type(t_info *info);
+int					is_parent_builtin(int type);
+void				execute_or_fork(t_info *info, t_pipe *pipe_fd);
+void				open_and_execute(t_info *info, t_pipe *pipe_fd);
+int					execute_parent_builtin(int type, t_info *info, t_env *env);
+int					find_pwd_line_index(char **envp);
+void				set_new_pwd_value(t_env *env, int index);
 
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
@@ -123,7 +132,8 @@ char				*get_parent(t_env *env);
 //ft_cd_utils2.c
 int					create_env_cd(char *env_to_create, t_env *env);
 void				get_rid_slash(char *cwd);
-char				*create_new_path(t_env *env, char *path);
+void				change_pwd(t_env *env, char *path);
+void				change_old_pwd(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_echo.c*******************************************************************
@@ -170,6 +180,7 @@ void				add_histo_and_exec(t_info *info, char *line);
 void				ctrl_back(int sig);
 void				ctrl_back_bis(int sig);
 void				handle_signal(void);
+void				handle_signal_bis(void);
 void				ctrl_c_bis(int sig);
 ///////////////////////////////////////////////////////////////////////////////
 
