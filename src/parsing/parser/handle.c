@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:30:23 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/20 13:19:54 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:43:42 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_token	*handle_cmd_token(t_cmd *node, t_token *token, int *i)
 		|| token->type == EXPAND || token->type == RETURN_COMMAND)
 	{
 		node->cmd[*i] = ft_strndup(token->start, token->length);
+		if (!node->cmd[*i])
+			return (NULL);
 		(*i)++;
 	}
 	return (token);
@@ -31,6 +33,8 @@ t_token	*handle_redir_in(t_cmd *node, t_token *token, int *r)
 	if (token)
 	{
 		node->name[*r] = ft_strndup(token->start, token->length);
+		if (!node->name[*r])
+			return (NULL);
 		node->in_or_out[*r] = 1;
 	}
 	(*r)++;
@@ -51,6 +55,8 @@ t_token	*handle_redir_out(t_cmd *node, t_token *token, int *r)
 	if (token)
 	{
 		node->name[*r] = ft_strndup(token->start, token->length);
+		if (!node->name[*r])
+			return (NULL);
 		node->in_or_out[*r] = type;
 	}
 	(*r)++;
@@ -69,6 +75,8 @@ t_token	*handle_heredoc(t_cmd *node, t_token *token, int *r)
 		else
 			node->heredoc++;
 		node->name[*r] = ft_strndup(token->start, token->length);
+		if (!node->name[*r])
+			return (NULL);
 		node->in_or_out[*r] = 4;
 	}
 	(*r)++;

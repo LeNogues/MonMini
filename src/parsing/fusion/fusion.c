@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fusion.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:05:17 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/06 20:36:49 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/25 15:58:08 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*create_new_string(t_token *parcours, t_token *end_of_sequence, int i)
 	t_token		*current;
 
 	resu = malloc(sizeof(char) * (i + 1));
+	if (!resu)
+		return (NULL);
 	j = 0;
 	current = parcours;
 	while (current != end_of_sequence)
@@ -74,14 +76,17 @@ void	delete_tokens(t_token *parcours, t_token *end_of_sequence)
 	}
 }
 
-void	merge_tokens(t_token *parcours, t_token *end_of_sequence)
+int	merge_tokens(t_token *parcours, t_token *end_of_sequence)
 {
 	char	*resu;
 	int		size;
 
 	size = size_new_string(parcours, end_of_sequence);
 	resu = create_new_string(parcours, end_of_sequence, size);
+	if (!resu)
+		return (0);
 	replace_node(parcours, resu);
 	delete_tokens(parcours, end_of_sequence);
 	parcours->next = end_of_sequence;
+	return (1);
 }

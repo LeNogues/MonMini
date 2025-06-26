@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main_function.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:13:50 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/05/05 15:15:39 by seb              ###   ########.fr       */
+/*   Updated: 2025/06/25 15:50:38 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	fusion(t_token **head)
+void	fusion(t_token **head, t_info *info)
 {
 	t_token	*parcours;
 	t_token	*end_of_sequence;
@@ -33,7 +33,8 @@ void	fusion(t_token **head)
 					break ;
 			}
 			if (i > 1)
-				merge_tokens(parcours, end_of_sequence);
+				if (merge_tokens(parcours, end_of_sequence) == 0)
+					exit_and_free_clean(head, info);
 		}
 		parcours = parcours->next;
 	}

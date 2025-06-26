@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 21:42:01 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:36:29 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,10 @@ void				open_and_execute(t_info *info, t_pipe *pipe_fd);
 int					execute_parent_builtin(int type, t_info *info, t_env *env);
 int					find_pwd_line_index(char **envp);
 void				set_new_pwd_value(t_env *env, int index);
+int					execute_parent_builtin(int type, t_info *info, t_env *env);
+void				change_old_pwd(t_env *env);
+void				change_pwd(t_env *env, char *path);
+void				handle_signal_bis(void);
 
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
@@ -132,8 +136,7 @@ char				*get_parent(t_env *env);
 //ft_cd_utils2.c
 int					create_env_cd(char *env_to_create, t_env *env);
 void				get_rid_slash(char *cwd);
-void				change_pwd(t_env *env, char *path);
-void				change_old_pwd(t_env *env);
+char				*create_new_path(t_env *env, char *path);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_echo.c*******************************************************************
@@ -180,7 +183,6 @@ void				add_histo_and_exec(t_info *info, char *line);
 void				ctrl_back(int sig);
 void				ctrl_back_bis(int sig);
 void				handle_signal(void);
-void				handle_signal_bis(void);
 void				ctrl_c_bis(int sig);
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -308,18 +310,19 @@ typedef struct s_scanner
 }	t_scanner;
 
 // expand.c
-void				expand_one_token(t_token *token_node, t_info *info);
+void				expand_one_token(t_token *token_node, t_info *info,
+						t_token **head);
 void				expand_token(t_token **head, t_info *info);
 void				expand_string(t_token **head, t_token *node, t_info *info);
 void				expand_one_token_return_value(t_token *token_node,
-						t_info *info);
+						t_info *info, t_token **head);
 
 // expand_string.c
 int					size_of_merged_string(t_token **sub_linked);
 char				*merge_string(t_token **head, int size);
-char				*return_string_from_quote(t_token *node);
-void				expand_one_token_sub(t_token **head, t_info *info);
-char				*return_string(t_token *node);
+char				*return_string_from_quote(t_token *node, t_token **head,
+						t_info *info);
+char				*return_string(t_token *node, t_token **head, t_info *info);
 
 // expand_utils.c
 char				*ft_strchr(const char *s, int c);
@@ -327,8 +330,21 @@ void				free_token_list(t_token **head);
 void				replace_node(t_token *node, char *resu);
 int					is_only_dollars(t_token *node);
 
+//expand_one_token_sub.c
+int					expand_one_token_sub(t_token **head, t_info *info);
+
+//expand_one_token.c
+void				expand_one_token(t_token *token_node, t_info *info,
+						t_token **head);
+
+//exp_one_tok_for_sub.c
+int					expand_one_token_for_sub(t_token *token_node, t_info *info);
+
+//exp_ins_heredoc.c
+char				*expand_for_heredoc(char *line, t_info *info);
+
 // main_function.c
-void				fusion(t_token **head);
+void				fusion(t_token **head, t_info *info);
 
 // fusion.c
 int					is_mergeable(t_token *node);
@@ -337,7 +353,7 @@ int					size_new_string(t_token *parcours,
 char				*create_new_string(t_token *parcours,
 						t_token *end_of_sequence, int i);
 void				delete_tokens(t_token *parcours, t_token *end_of_sequence);
-void				merge_tokens(t_token *parcours, t_token *end_of_sequence);
+int					merge_tokens(t_token *parcours, t_token *end_of_sequence);
 // init_scanner.c
 
 t_scanner			*scanner(void);
@@ -372,6 +388,7 @@ void				ft_list_len(t_cmd *cmd);
 //create_linked_list.c
 void				insert_at_head(t_token **head, t_token *token);
 void				insert_last(t_token **head, t_token *token_list);
+void				exit_and_free_clean(t_token **head, t_info *info);
 
 //print_token.c
 void				print_list(t_token **head);
@@ -379,10 +396,10 @@ void				print_one_token(t_token *node);
 int					create_list_of_token(t_token **head);
 
 // parser.c
-int					parser(t_token **head, t_cmd **final);
+void				parser(t_token **head, t_cmd **final, t_info *info);
 char				**create_command_line(t_token *start, t_token *pipe);
 int					size_cmd_line(t_token *start, t_token *pipe);
-void				initialise_node(t_cmd **node, int cmd_size, int redir_size);
+int					initialise_node(t_cmd **node, int cmd_size, int redir_size);
 
 // handle.c functions
 t_token				*handle_cmd_token(t_cmd *node, t_token *token, int *i);
@@ -392,6 +409,10 @@ t_token				*handle_heredoc(t_cmd *node, t_token *token, int *r);
 
 // parser.c helper
 void				init_indices(int indices[2]);
+
+// exit_parser.c
+void				exit_and_free_clean_pars(t_token **head, t_cmd **final,
+						t_info *info);
 
 // parser_verif.c
 int					handle_redir_syntax(t_token **current_ptr);
@@ -404,5 +425,6 @@ int					syntax_verif(t_token **head);
 // create_node.c
 t_cmd				*create_one_node(t_token *start, t_token *pipe);
 t_cmd				*create_one_node(t_token *start, t_token *pipe);
+void				free_all_cmd_bis(t_cmd **cmd);
 
 #endif

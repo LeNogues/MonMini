@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:33:01 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/06/20 19:46:03 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:27:37 by othmaneetta      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,19 @@ void	free_all(t_token **head)
 	*head = NULL;
 }
 
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
 t_cmd	*merge(t_info *info, char *source)
 {
 	t_token	*head;
@@ -87,11 +100,17 @@ t_cmd	*merge(t_info *info, char *source)
 	init_scanner(source);
 	head = NULL;
 	final = NULL;
-	create_list_of_token(&head);
+	if (create_list_of_token(&head) == 0)
+	{
+		free(source);
+		free_tab(info->env->envp);
+		free(info->env);
+		free(info);
+		exit(1);
+	}
 	expand_token(&head, info);
-	fusion(&head);
-	if (parser(&head, &final))
-		info->return_value = 2;
+	fusion(&head, info);
+	parser(&head, &final, info);
 	ft_list_len(final);
 	free_token_list(&head);
 	return (final);

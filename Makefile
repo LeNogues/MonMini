@@ -1,7 +1,7 @@
 NAME=minishell
 LIBFTNAME=libft.a
 CC=cc
-CFLAGS=-Wall -Werror -Wextra -Ilibft -g3 
+CFLAGS=-Wall -Werror -Wextra -Ilibft -g3
 LIBFLAGS= -lft -Llibft
 LIBFTDIR = ./libft
 
@@ -22,6 +22,7 @@ SRC=    src/main.c \
 		src/signal/signal.c \
 		src/exec/exec.c \
 		src/exec/type_builtin.c \
+		src/exec/execute_parent_built.c \
 		src/exec/exec_loop.c \
 		src/exec/parsing.c \
 		src/exec/path.c \
@@ -55,7 +56,12 @@ SRC=    src/main.c \
 		src/parsing/parser/parser.c \
 		src/parsing/parser/syntax_verif.c \
 		src/parsing/lexer/ft_list_len.c \
-		src/parsing/lexer/create_single_token.c
+		src/parsing/lexer/create_single_token.c \
+		src/parsing/expand/expand_one_token_sub.c \
+		src/parsing/expand/exp_one_tok_for_sub.c \
+		src/parsing/expand/expand_one_token.c \
+		src/parsing/parser/exit_parser.c \
+		src/parsing/expand_inside_heredoc/exp_ins_heredoc.c
 
 		
 

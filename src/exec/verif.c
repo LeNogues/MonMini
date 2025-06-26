@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:28:19 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 16:13:04 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:01:17 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ static int	open_not_all(t_info *info, t_pipe *pipe_fd, int i)
 		return (open_heredoc_bis(info->cmd, info->cmd->name[i], pipe_fd));
 }
 
+void	close_result(t_info *info)
+{
+	write(2, "could not open file\n", 20);
+	if (dup2(info->cmd->fd_stdout, STDOUT_FILENO) == -1)
+	{
+		close_pipe_fd(info->pipe->old);
+		exit_clean(1, info, info->env, info->pipe);
+	}
+	close_pipe_fd(info->pipe->old);
+}
+
 int	verif_file_builtin(t_info *info, t_pipe *pipe_fd)
 {
 	int	i;
@@ -54,9 +65,8 @@ int	verif_file_builtin(t_info *info, t_pipe *pipe_fd)
 		result = open_not_all(info, pipe_fd, i);
 		if (!result)
 		{
-			write(2, "could not open file\n", 20);
-			dup2(info->cmd->fd_stdout, STDOUT_FILENO);
-			return (close_pipe_fd(pipe_fd->old), 0);
+			close_result(info);
+			return (0);
 		}
 		if (result == -1)
 			return (close_pipe_fd(pipe_fd->old), 0);

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 21:36:31 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:02:49 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	prepare_redirections(t_info *info)
 	i = 0;
 	while (info->cmd->name[i])
 	{
+		printf("%s\n", info->cmd->name[1]);
 		result = open_all(info, i);
 		if (result > 0)
 		{
@@ -60,32 +61,6 @@ void	open_and_execute(t_info *info, t_pipe *pipe_fd)
 		execute(info, info->env, pipe_fd);
 	else
 		exit_clean(result, info, info->env, pipe_fd);
-}
-
-int	execute_parent_builtin(int type, t_info *info, t_env *env)
-{
-	int	saved_stdout;
-	int	saved_stdin;
-	int	result;
-	int	id;
-
-	id = 0;
-	result = 0;
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
-	if (info->cmd->fd_out != STDOUT_FILENO)
-		dup2(info->cmd->fd_out, STDOUT_FILENO);
-	if (info->cmd->fd_in != STDIN_FILENO)
-		dup2(info->cmd->fd_in, STDIN_FILENO);
-	if (type >= 1 && type <= 6)
-		result = execute_built_in_bis(type, info, env, NULL);
-	dup2(saved_stdout, STDOUT_FILENO);
-	close(saved_stdout);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-	if (type == 7)
-		result = ft_exit(info, env, info->pipe);
-	return (result);
 }
 
 void	handle_cmd(t_info *info, t_pipe *pipe_fd)

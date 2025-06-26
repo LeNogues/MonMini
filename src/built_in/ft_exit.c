@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:50:10 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 19:25:56 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:37:15 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_exit(t_info *info, t_env *env, t_pipe *pipe_fd)
 	long			exit_value_long;
 	unsigned int	exit_value_int;
 
+	if ((*info).cmd->cmd[1] == NULL)
+		exit_clean(info->return_value, info, env, pipe_fd);
 	result = ft_atol((*info).cmd->cmd[1], &exit_value_long);
 	exit_value_int = exit_value_long;
 	if (result == 1)

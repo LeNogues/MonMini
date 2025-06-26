@@ -63,7 +63,7 @@ OBJS = $(SRCS:.c=.o)
 
 # Compilateur et options de compilation
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 # Commandes de Makefile
 all: $(NAME)
