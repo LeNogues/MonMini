@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:30:17 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/25 16:50:43 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/26 15:56:09 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	count(t_token *start, t_token *pipe, int *cmd_size, int *redir_size)
 	while (parcours != pipe)
 	{
 		if (parcours->type == COMMAND || parcours->type == STRING
-			|| parcours->type == EXPAND)
+			|| parcours->type == EXPAND || parcours->type == RETURN_COMMAND)
 			(*cmd_size)++;
 		else if (parcours->type == REDIR_IN || parcours->type == REDIR_OUT
 			|| parcours->type == APPEND || parcours->type == HEREDOC)
