@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 15:51:07 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:13:00 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 		if (create_env(info->env))
 			return (free(info), -1);
 	}
-	else if (set_environment(info->env, envp))
+	else if (set_environment(info, info->env, envp))
 		return (free(info->env), free(info), -1);
 	hub(info);
 	free_tab(info->env->envp);

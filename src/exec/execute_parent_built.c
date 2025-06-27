@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_parent_built.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:12:28 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 11:19:35 by tblochet         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:32:48 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,7 @@ int	execute_parent_builtin(int type, t_info *info, t_env *env)
 	restore_standard_fds(saved_stdin, saved_stdout, info);
 	if (type == 7)
 		result = ft_exit(info, env, info->pipe);
+	if (result == 7)
+		exit_clean(1, info, env, info->pipe);
 	return (result);
 }

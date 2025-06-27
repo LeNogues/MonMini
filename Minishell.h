@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/26 15:36:29 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:45:01 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,10 @@ int					execute_parent_builtin(int type, t_info *info, t_env *env);
 int					find_pwd_line_index(char **envp);
 void				set_new_pwd_value(t_env *env, int index);
 int					execute_parent_builtin(int type, t_info *info, t_env *env);
-void				change_old_pwd(t_env *env);
+void				change_old_pwd(t_info *info, t_env *env);
 void				change_pwd(t_env *env, char *path);
 void				handle_signal_bis(void);
+int					env_exist(t_env *env, char *cmd);
 
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
@@ -125,7 +126,7 @@ int					ft_pwd(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_cd.c*********************************************************************
-int					ft_cd(char **path, t_env *env);
+int					ft_cd(t_info *info, char **path, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_cd_utils.c***************************************************************
@@ -134,7 +135,8 @@ char				*get_parent(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
 //ft_cd_utils2.c
-int					create_env_cd(char *env_to_create, t_env *env);
+int					create_env_cd(t_info *info, char *env_to_create,
+						t_env *env);
 void				get_rid_slash(char *cwd);
 char				*create_new_path(t_env *env, char *path);
 ///////////////////////////////////////////////////////////////////////////////
@@ -159,7 +161,7 @@ int					ft_unset(char **cmd, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_export.c*****************************************************************
-int					ft_export(char **cmd, t_env *env);
+int					ft_export(t_info *info, char **cmd, t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_export_utils.c***********************************************************
@@ -246,7 +248,7 @@ int					open_heredoc_bis(t_cmd *cmd,
 ///////////////////////////////////////////////////////////////////////////////
 
 // set_env.c********************************************************************
-int					set_environment(t_env *env, char **envp);
+int					set_environment(t_info *info, t_env *env, char **envp);
 int					create_env(t_env *env);
 ///////////////////////////////////////////////////////////////////////////////
 

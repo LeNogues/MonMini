@@ -6,39 +6,11 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/18 22:45:52 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:44:52 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-static int	env_exist(t_env *env, char *cmd)
-{
-	int	i;
-	int	j;
-
-	if (!env->envp || !env->envp[0] || !cmd)
-		return (0);
-	i = 0;
-	while (env->envp[i])
-	{
-		j = 0;
-		while (env->envp[i][j] || cmd[j])
-		{
-			if (env->envp[i][j] == '=' && cmd[j] == '=')
-			{
-				free(env->envp[i]);
-				env->envp[i] = ft_strdup(cmd);
-				return (1);
-			}
-			if (env->envp[i][j] != cmd[j])
-				break ;
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
 
 static void	add_arguments(int i, int size, char **cmd, t_env *new_env)
 {
@@ -81,31 +53,56 @@ static t_env	*copy_env(t_env *env, int *i, t_env *new_env)
 	return (new_env);
 }
 
-int	ft_export(char **cmd, t_env *env)
+static t_env	*initialize_export_env(t_env *env, char **cmd)
 {
 	int		size;
-	int		i;
 	t_env	*new_env;
 
 	if (!env || !env->envp)
-		return (0);
-	i = 0;
+		return (NULL);
 	size = ft_tablen(env->envp) + ft_tablen(cmd) + 1;
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
-		return (0);
+		return (NULL);
 	new_env->envp = ft_calloc(sizeof(char *), size);
 	if (!new_env->envp)
-		return (free(new_env), 0);
-	new_env = copy_env(env, &i, new_env);
-	if (!new_env)
-		return (free_tab(new_env->envp), 0);
-	add_arguments(i, size, cmd, new_env);
-	if (!new_env)
-		return (free_tab(env->envp), 0);
+	{
+		free(new_env);
+		return (NULL);
+	}
+	return (new_env);
+}
+
+static int	finalize_export(t_info *info, t_env *env, t_env *new_env)
+{
+	int	status;
+
 	free_tab(env->envp);
-	set_environment(env, new_env->envp);
+	status = set_environment(info, env, new_env->envp);
 	free_tab(new_env->envp);
 	free(new_env);
+	if (status == 7)
+		return (7);
 	return (0);
+}
+
+int	ft_export(t_info *info, char **cmd, t_env *env)
+{
+	int		i;
+	int		size;
+	t_env	*new_env;
+
+	new_env = initialize_export_env(env, cmd);
+	if (!new_env)
+		return (0);
+	i = 0;
+	size = ft_tablen(env->envp) + ft_tablen(cmd) + 1;
+	if (!copy_env(env, &i, new_env))
+	{
+		free_tab(new_env->envp);
+		free(new_env);
+		return (0);
+	}
+	add_arguments(i, size, cmd, new_env);
+	return (finalize_export(info, env, new_env));
 }

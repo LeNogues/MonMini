@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 11:23:10 by tblochet         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:36:33 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	exec(t_info *info)
 
 	g_state_signal = 1;
 	info->return_built = -1;
+	status_fils = 0;
 	info->pipe = malloc(sizeof(t_pipe) * 1);
 	if (!info->pipe)
 		exit_clean(1, info, info->env, info->pipe);

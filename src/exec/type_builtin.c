@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:36:27 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/20 20:40:59 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:21:59 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_built_in_bis(int type, t_info *info,
 	t_env *env, t_pipe *pipe_fd)
 {	
 	if (type == 1)
-		return (ft_cd(info->cmd->cmd, env));
+		return (ft_cd(info, info->cmd->cmd, env));
 	else if (type == 2)
 		return (ft_pwd(env));
 	else if (type == 3)
@@ -33,7 +33,7 @@ int	execute_built_in_bis(int type, t_info *info,
 	else if (type == 5)
 		return (ft_unset(info->cmd->cmd, env));
 	else if (type == 6)
-		return (ft_export(info->cmd->cmd, env));
+		return (ft_export(info, info->cmd->cmd, env));
 	if (type == 7)
 		return (ft_exit(info, env, pipe_fd));
 	return (0);

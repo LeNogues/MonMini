@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_one_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:33:32 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/26 11:49:09 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/27 12:05:29 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	expand_one_token(t_token *token_node, t_info *info, t_token **head)
 	char	*value;
 
 	key = create_env_key_or_exit(token_node, head, info);
+	if (!key)
+		printf("ici?\n");
 	value = ft_getenv(key, info->env);
 	free(key);
 	update_token_value_or_exit(token_node, value, head, info);

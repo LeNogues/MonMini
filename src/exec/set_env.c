@@ -6,19 +6,19 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:32:00 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/19 14:44:52 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:29:49 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	set_environment(t_env *env, char **envp)
+int	set_environment(t_info *info, t_env *env, char **envp)
 {
 	int			i;
 	const int	size = ft_tablen(envp) + 1;
 
 	i = 0;
-	if (!env || !envp)
+	if (!info->env || !envp)
 		return (1);
 	env->envp = ft_calloc(sizeof(char *), size);
 	if (!env->envp)
@@ -27,10 +27,7 @@ int	set_environment(t_env *env, char **envp)
 	{
 		env->envp[i] = ft_strdup(envp[i]);
 		if (!env->envp[i])
-		{
-			free_tab(env->envp);
-			return (-1);
-		}
+			return (7);
 		i++;
 	}
 	env->envp[i] = NULL;
