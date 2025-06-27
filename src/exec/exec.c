@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/26 14:45:21 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:23:10 by tblochet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ void	exec(t_info *info)
 		exit_clean(1, info, info->env, info->pipe);
 	if (!do_cmd(info, info->pipe))
 		exit_clean(1, info, info->env, info->pipe);
-	waitpid(info->last_pid, &status_fils, 0);
+	waitpid(info->last_pid, &status_fils, WUNTRACED);
 	if (info->last_pid != 0)
 		info->return_value = WEXITSTATUS(status_fils);
 	if (info->return_built != -1)
 		info->return_value = info->return_built;
 	info->last_pid = 0;
-	if (g_state_signal == 130 || g_state_signal == 131)
-		info->return_value = g_state_signal;
+	if (WTERMSIG(status_fils))
+		info->return_value = 128 + WTERMSIG(status_fils);
 	while (waitpid(0, NULL, 0) != -1)
 		;
 	return ;

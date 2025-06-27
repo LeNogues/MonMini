@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:58:40 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/26 14:45:56 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:06:10 by tblochet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	ctrl_back(int sig)
 		write(2, "Quit (core dumped)\n", 19);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		g_state_signal = 131;
 	}
 }
 
