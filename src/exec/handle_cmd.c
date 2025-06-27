@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 11:17:14 by tblochet         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:56:24 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	prepare_redirections(t_info *info)
 	i = 0;
 	while (info->cmd->name[i])
 	{
-		printf("%s\n", info->cmd->name[1]);
 		result = open_all(info, i);
 		if (result > 0)
 		{

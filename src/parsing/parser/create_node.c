@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:30:17 by othmaneetta       #+#    #+#             */
-/*   Updated: 2025/06/26 15:56:09 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:22:44 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_cmd	*create_one_node(t_token *start, t_token *pipe)
 	if (!node)
 		return (NULL);
 	if (initialise_node(&node, cmd_size, redir_size) == 0)
-		return (NULL);
+		return (free(node), NULL);
 	init_indices(indices);
 	if (fill(node, start, pipe, indices) == 0)
 		return (NULL);
