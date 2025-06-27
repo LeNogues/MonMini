@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/26 15:02:49 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:17:14 by tblochet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 	if (info->cmd->cmd)
 	{
 		execute_or_fork(info, pipe_fd);
-		if (g_state_signal == 130 || g_state_signal == 131)
-			info->return_value = g_state_signal;
 		if (info->cmd->nb_cmd == 1)
 			close_pipe_fd(pipe_fd->old);
 	}

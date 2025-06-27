@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/21 15:46:00 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:15:47 by tblochet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	hub(t_info *info)
 			add_histo_and_exec(info, line);
 		if (g_state_signal == 130 || g_state_signal == 131)
 			info->return_value = g_state_signal;
+		if (info->return_value == 131)
+			printf("Quit (core dumped)\n");
 		free(line);
 		signal(SIGINT, ctrl_c);
 	}
