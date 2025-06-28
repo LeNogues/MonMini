@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/28 05:56:43 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:05:19 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ void	open_and_execute(t_info *info, t_pipe *pipe_fd)
 	close_fds_in_child(info, info->cmd);
 	signal(SIGINT, ctrl_c);
 	dup_no_fd(info->cmd, pipe_fd);
+	if (info->cmd->nb_cmd >= 3 && info->cmd != info->cmd_origin)
+	{
+		close(pipe_fd->new[0]);
+		close(pipe_fd->new[1]);
+	}
 	close_redirection_fds(info->cmd);
 	result = choice_of_builtin(info, info->env, pipe_fd);
 	if (result == -1)
