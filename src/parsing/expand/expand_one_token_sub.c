@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_one_token_sub.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: othmaneettaqi <othmaneettaqi@student.42    +#+  +:+       +#+        */
+/*   By: oettaqi <oettaqi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:15:39 by oettaqi           #+#    #+#             */
-/*   Updated: 2025/06/26 11:32:51 by othmaneetta      ###   ########.fr       */
+/*   Updated: 2025/06/28 15:47:07 by oettaqi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,42 @@ char	*return_string_from_quote_for_sub(t_token *node)
 
 static int	handle_quoted_string_expansion(t_token *token, t_info *info)
 {
-	char	*str_to_expand;
+	char	*inner_content;
+	char	*temp_join;
+	char	*final_str;
+	t_token	temp_token;
 
-	str_to_expand = return_string_from_quote_for_sub(token);
-	if (!str_to_expand)
+	inner_content = return_string_from_quote_for_sub(token);
+	if (!inner_content)
 		return (0);
-	replace_node(token, str_to_expand);
-	return (expand_one_token_for_sub(token, info));
+	temp_token.start = inner_content;
+	temp_token.length = ft_strlen(inner_content);
+	if (!expand_one_token_for_sub(&temp_token, info))
+		return (0);
+	temp_join = ft_strjoin("'", temp_token.start);
+	free(temp_token.start);
+	if (!temp_join)
+		return (0);
+	final_str = ft_strjoin(temp_join, "'");
+	free(temp_join);
+	if (!final_str)
+		return (0);
+	free(token->start);
+	token->start = final_str;
+	token->length = ft_strlen(final_str);
+	return (1);
 }
+
+// static int	handle_quoted_string_expansion(t_token *token, t_info *info)
+// {
+// 	char	*str_to_expand;
+
+// 	str_to_expand = return_string_from_quote_for_sub(token);
+// 	if (!str_to_expand)
+// 		return (0);
+// 	replace_node(token, str_to_expand);
+// 	return (expand_one_token_for_sub(token, info));
+// }
 
 static int	process_token(t_token *token, t_info *info)
 {
