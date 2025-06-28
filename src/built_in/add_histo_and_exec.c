@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:13:31 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/26 14:45:03 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 03:51:40 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ void	add_histo_and_exec(t_info *info, char *line)
 	if (!result)
 	{
 		info->cmd_origin = info->cmd;
-		exec(info);
+		if (info->cmd->nb_cmd < 50)
+			exec(info);
+		else
+		{
+			printf("too many pipes\n");
+			info->return_value = 1;
+		}
 		free_all_cmd(info->cmd_origin);
 	}
 }

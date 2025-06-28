@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 14:13:00 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:48:21 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int			g_state_signal = 1;
 int	main(int argc, char **argv, char **envp)
 {
 	t_info	*info;
+	int		return_value;
 
 	(void)argc;
 	(void)argv;
@@ -38,7 +39,6 @@ int	main(int argc, char **argv, char **envp)
 		return (free(info->env), free(info), -1);
 	hub(info);
 	free_tab(info->env->envp);
-	free(info->env);
-	free(info);
-	return (0);
+	return_value = info->return_value;
+	return (free(info->env), free(info), return_value);
 }

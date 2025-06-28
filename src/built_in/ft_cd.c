@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 11:43:35 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 14:20:24 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:23:41 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	set_new_pwd_value(t_env *env, int index)
 	cwd = getcwd(NULL, 0);
 	if (!tmp_path || !cwd)
 	{
+		env->envp[index] = ft_strjoin(tmp_path, "");
 		free(tmp_path);
 		free(cwd);
 		return ;
@@ -64,7 +65,7 @@ int	ft_cd(t_info *info, char **cmd, t_env *env)
 			return (1);
 	}
 	else if (size_tab > 2)
-		return (perror("too many arguments"), 0);
+		return (printf("two many arguments\n"), 0);
 	else
 	{
 		if (path)

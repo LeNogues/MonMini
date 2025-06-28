@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:55:46 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 11:21:05 by tblochet         ###   ########.fr       */
+/*   Updated: 2025/06/28 03:54:43 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ void	execute(t_info *info, t_env *env, t_pipe *pipe_fd)
 		execve(info->cmd->full_path, info->cmd->cmd, env->envp);
 	}
 	write(2, "execution impossible\n", 21);
-	free_cmd_env_pipe(info, env, pipe_fd);
+	exit_clean(126, info, info->env, pipe_fd);
 }

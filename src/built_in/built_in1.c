@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblochet <tblochet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/27 11:15:47 by tblochet         ###   ########.fr       */
+/*   Updated: 2025/06/27 22:03:20 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ int	choice_of_builtin(t_info *info, t_env *env, t_pipe *pipe_fd)
 {
 	int	result;
 	int	type;
-	int	id;
 
 	result = -1;
 	type = 0;
-	id = -1;
 	info->cmd->fd_stdout = 0;
 	info->cmd->fd_stdin = 0;
 	if (!info->cmd->cmd)

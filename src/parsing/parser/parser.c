@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:27:06 by taqi              #+#    #+#             */
-/*   Updated: 2025/06/27 11:59:16 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 04:02:00 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	parser(t_token **head, t_cmd **final, t_info *info)
 	t_token	*current;
 	t_cmd	*node;
 
-	if (syntax_verif(head) == 1)
+	if (syntax_verif(info, head) == 1)
 		return ;
 	current_start = *head;
 	current = current_start;

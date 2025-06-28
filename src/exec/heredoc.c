@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:29:05 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/26 15:50:11 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 02:23:42 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	read_and_fill_heredoc(int write_fd, char *limiter, t_info *info)
 	while (g_state_signal == 3)
 	{
 		line = readline("heredoc > ");
+		printf("warning : need end-of-file limiter\n");
 		if (!line || g_state_signal != 3)
 		{
 			if (line)
@@ -68,7 +69,7 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_info *info)
 	int		pipe_hd[2];
 
 	if (pipe(pipe_hd) == -1)
-		return (perror("pipe"), 0);
+		return (0);
 	g_state_signal = 3;
 	signal(SIGQUIT, SIG_IGN);
 	read_and_fill_heredoc(pipe_hd[1], limiter, info);

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 14:45:01 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 04:10:25 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_info
 	t_pipe	*pipe;
 	t_cmd	*cmd;
 	t_cmd	*cmd_origin;
+	char	**str;
 	int		return_value;
 	int		return_built;
 	int		last_pid;
@@ -112,7 +113,7 @@ void				change_old_pwd(t_info *info, t_env *env);
 void				change_pwd(t_env *env, char *path);
 void				handle_signal_bis(void);
 int					env_exist(t_env *env, char *cmd);
-
+void				set_return(t_info *info);
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
 int					choice_of_builtin(t_info *info, t_env *env,
@@ -422,7 +423,7 @@ int					handle_pipe_syntax(t_token **current_ptr);
 int					is_redir_type(t_token_type type);
 
 // syntax_verif.c
-int					syntax_verif(t_token **head);
+int					syntax_verif(t_info *info, t_token **head);
 
 // create_node.c
 t_cmd				*create_one_node(t_token *start, t_token *pipe);

@@ -38,6 +38,7 @@ SRC=    src/main.c \
 		src/exec/mini_dup.c \
 		src/utils/free.c \
 		src/utils/close_pipe_fd.c \
+		src/utils/set_return.c \
 		src/parsing/expand/expand_string.c \
 		src/parsing/expand/expand_utils.c \
 		src/parsing/expand/expand.c \
