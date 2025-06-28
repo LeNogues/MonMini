@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/28 05:58:39 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:32:07 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void				handle_signal_bis(void);
 int					env_exist(t_env *env, char *cmd);
 void				set_return(t_info *info);
 int					prepare_redirections(t_info *info);
+int					type_process(int action, int value);
 
 // built_in1.c*****************************************************************
 void				hub(t_info *info);

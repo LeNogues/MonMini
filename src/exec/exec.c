@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:53:42 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 14:36:33 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:24:30 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec(t_info *info)
 {
 	int		status_fils;
 
-	g_state_signal = 1;
+	type_process(1, 1);
 	info->return_built = -1;
 	status_fils = 0;
 	info->pipe = malloc(sizeof(t_pipe) * 1);

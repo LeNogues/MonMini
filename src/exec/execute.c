@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:55:46 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/28 04:56:50 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:24:41 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	fork_and_execute_cmd(t_info *info, t_pipe *pipe_fd)
 
 	handle_signal_bis();
 	id = fork();
-	g_state_signal = 2;
+	type_process(1, 2);
 	if (id == 0)
 		open_and_execute(info, pipe_fd);
 	return (id);

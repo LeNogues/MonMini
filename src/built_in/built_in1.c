@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/06/27 22:03:20 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:30:07 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	hub(t_info *info)
 	info->return_value = 0;
 	while (1)
 	{
-		g_state_signal = 1;
+		type_process(1, 1);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("\001\e[32m\002Minishell : \001\e[0m\002");
 		if (!line)

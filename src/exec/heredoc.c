@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:29:05 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/28 09:42:28 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:28:12 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ int	open_heredoc_bis(t_cmd *cmd, char *limiter, t_pipe *pipe_fd)
 {
 	char		*line;
 
-	g_state_signal = 3;
 	(void)cmd;
 	(void)pipe_fd;
 	signal(SIGQUIT, SIG_IGN);
-	while (g_state_signal == 3)
+	while (1)
 	{
 		line = readline("heredoc > ");
-		if (!line || g_state_signal != 3)
+		if (!line)
 			break ;
 		if (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 			return (free(line), 1);
@@ -42,12 +41,12 @@ static void	read_and_fill_heredoc(int write_fd, char *limiter, t_info *info)
 {
 	char	*line;
 
-	while (g_state_signal == 3)
+	while (1)
 	{
 		line = readline("heredoc > ");
 		if (!line)
 			printf("warning : need end-of-file limiter\n");
-		if (!line || g_state_signal != 3)
+		if (!line)
 		{
 			if (line)
 				free(line);
@@ -63,6 +62,8 @@ static void	read_and_fill_heredoc(int write_fd, char *limiter, t_info *info)
 		write(write_fd, "\n", 1);
 		free(line);
 	}
+	if (info->return_value == 131)
+		info->return_value = 130;
 }
 
 int	open_heredoc(t_cmd *cmd, char *limiter, t_info *info)
@@ -71,11 +72,11 @@ int	open_heredoc(t_cmd *cmd, char *limiter, t_info *info)
 
 	if (pipe(pipe_hd) == -1)
 		return (0);
-	g_state_signal = 3;
+	type_process(1, 3);
 	signal(SIGQUIT, SIG_IGN);
 	read_and_fill_heredoc(pipe_hd[1], limiter, info);
 	close(pipe_hd[1]);
-	if (g_state_signal != 3)
+	if (type_process(0, 0) != 3)
 	{
 		close(pipe_hd[0]);
 		info->return_value = 130;

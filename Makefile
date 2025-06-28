@@ -19,6 +19,7 @@ SRC=    src/main.c \
 		src/built_in/ft_exit.c \
 		src/built_in/ft_pwd.c \
 		src/built_in/ft_unset.c \
+		src/built_in/process.c \
 		src/signal/signal.c \
 		src/exec/exec.c \
 		src/exec/type_builtin.c \
