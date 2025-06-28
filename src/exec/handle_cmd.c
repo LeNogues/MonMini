@@ -6,36 +6,25 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:37:22 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/27 14:56:24 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 05:56:43 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-int	prepare_redirections(t_info *info)
+void	cleanup_fds_on_error(t_cmd *cmd_list)
 {
-	int	i;
-	int	result;
+	t_cmd	*current;
 
-	info->cmd->fd_in = STDIN_FILENO;
-	info->cmd->fd_out = STDOUT_FILENO;
-	if (!info->cmd->name)
-		return (1);
-	i = 0;
-	while (info->cmd->name[i])
+	current = cmd_list;
+	while (current)
 	{
-		result = open_all(info, i);
-		if (result > 0)
-		{
-			if (info->cmd->fd_in > STDIN_FILENO)
-				close(info->cmd->fd_in);
-			if (info->cmd->fd_out > STDOUT_FILENO)
-				close(info->cmd->fd_out);
-			return (0);
-		}
-		i++;
+		if (current->fd_in > 2)
+			close(current->fd_in);
+		if (current->fd_out > 2)
+			close(current->fd_out);
+		current = current->next;
 	}
-	return (1);
 }
 
 void	close_redirection_fds(t_cmd *cmd)
@@ -44,14 +33,31 @@ void	close_redirection_fds(t_cmd *cmd)
 		close(cmd->fd_in);
 	if (cmd->fd_out > 2)
 		close(cmd->fd_out);
-	cmd->fd_in = STDIN_FILENO;
-	cmd->fd_out = STDOUT_FILENO;
+}
+
+void	close_fds_in_child(t_info *info, t_cmd *current_cmd)
+{
+	t_cmd	*temp;
+
+	temp = info->cmd_origin;
+	while (temp)
+	{
+		if (temp != current_cmd)
+		{
+			if (temp->fd_in > 2)
+				close(temp->fd_in);
+			if (temp->fd_out > 2)
+				close(temp->fd_out);
+		}
+		temp = temp->next;
+	}
 }
 
 void	open_and_execute(t_info *info, t_pipe *pipe_fd)
 {
 	int	result;
 
+	close_fds_in_child(info, info->cmd);
 	signal(SIGINT, ctrl_c);
 	dup_no_fd(info->cmd, pipe_fd);
 	close_redirection_fds(info->cmd);
@@ -64,17 +70,11 @@ void	open_and_execute(t_info *info, t_pipe *pipe_fd)
 
 void	handle_cmd(t_info *info, t_pipe *pipe_fd)
 {
-	if (!prepare_redirections(info))
-	{
-		if (info->return_value != 130)
-			info->return_value = 1;
-		return ;
-	}
-	if (info->cmd->cmd)
+	if (info->cmd->cmd && info->cmd->redir_error == 0)
 	{
 		execute_or_fork(info, pipe_fd);
-		if (info->cmd->nb_cmd == 1)
-			close_pipe_fd(pipe_fd->old);
 	}
 	close_redirection_fds(info->cmd);
+	if (info->cmd->nb_cmd == 1)
+		close_pipe_fd(pipe_fd->old);
 }

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:03:28 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/18 19:23:25 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 05:54:11 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	do_cmd(t_info *info, t_pipe *pipe_fd)
 {
+	if (prepare_redirections(info) != 0)
+	{
+		return (1);
+	}
 	first_cmd(&info->cmd, info, pipe_fd);
 	if (!loop_on_middle(info, pipe_fd))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/06/28 04:10:25 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/06/28 05:58:39 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_cmd
 	int				nb_cmd;
 	int				fd_stdin;
 	int				fd_stdout;
+	int				redir_error;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -97,7 +98,7 @@ typedef struct s_info
 int					prepare_redirections(t_info *info);
 void				close_redirection_fds(t_cmd *cmd);
 int					prepare_redirections(t_info *info);
-int					open_all(t_info *info, int i);
+int					open_all(t_info *info, t_cmd *cmd, int i);
 void				dup_no_fd(t_cmd *cmd, t_pipe *pipe_fd);
 int					execute_built_in_bis(int type, t_info *info,
 						t_env *env, t_pipe *pipe_fd);
@@ -114,6 +115,8 @@ void				change_pwd(t_env *env, char *path);
 void				handle_signal_bis(void);
 int					env_exist(t_env *env, char *cmd);
 void				set_return(t_info *info);
+int					prepare_redirections(t_info *info);
+
 // built_in1.c*****************************************************************
 void				hub(t_info *info);
 int					choice_of_builtin(t_info *info, t_env *env,
